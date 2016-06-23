@@ -1,5 +1,21 @@
 from django.db import models
 
+class Book(models.Model):
+    """
+    One book in the Tanach
+    """
+    english_name = models.CharField(max_length=20, unique=True)
+    hebrew_name = models.CharField(max_length=20, unique=True)
+    transliterated_name = models.CharField(max_length=20, unique=True)
+    sortkey = models.PositiveSmallIntegerField(unique=True)
+
+    class Meta:
+        ordering = ['sortkey']
+
+    def __str__(self):
+        return self.english_name
+
+
 class Parasha(models.Model):
     """
     One parasha, including one or more sections of the Tanach
@@ -20,6 +36,7 @@ class Portion(models.Model):
       CC = chapter (00-99)
       VV = verse (00-99)
     """
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
     start_chapter = models.PositiveSmallIntegerField()
     start_verse = models.PositiveSmallIntegerField()
     end_chapter = models.PositiveSmallIntegerField()
@@ -31,23 +48,21 @@ class Portion(models.Model):
     description = models.CharField(max_length=40) # Genesis 1:1-2:9
 
 
-class Book(models.Model):
+class Word_Location(models.Model):
     """
-    One book in the Tanach
+    location of a word in the Tenach
     """
-    english_name = models.CharField(max_length=20, unique=True)
-    hebrew_name = models.CharField(max_length=20, unique=True)
-    transliterated_name = models.CharField(max_length=20, unique=True)
-    sort_key = models.PositiveSmallIntegerField(unique=True)
-    portion = models.ForeignKey(Portion, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    chapter = models.PositiveSmallIntegerField()
+    verse = models.PositiveSmallIntegerField()
 
 
 class Word(models.Model):
     """
-    one word/food/whatever mentioned in the Tenach
+    one word or phrase mentioned in the Tenach
     """
     english_word = models.CharField(max_length=100, unique=True)
     hebrew_word = models.CharField(max_length=100, unique=True)
     transliterated_word = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=2000, null=True)
-    parasha = models.ManyToManyField(Parasha)
+    word_location = models.ManyToManyField(Word_Location)
