@@ -1,13 +1,21 @@
 {% extends 'bytes/base.html' %}
 
-{% block title %}List of all Portions :: Parasha Bytes{% endblock %}
+{% block title %}All Portions :: Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>List of all Portions</h1>
+    <h1>All Portions</h1>
     <ul>
         {% for portion in portions %}
-            <li><a href="{% url 'bytes:portion_edit' portion.pk %}">{{ portion.description }}</a></li>
+            <li>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'bytes:portion_edit' portion.pk %}">{{ portion.description }}</a>
+                {% else %}
+                    {{ portion.description }}
+                {% endif %}
+            </li>
         {% endfor %}
-        <li><a href="{% url 'bytes:portion_add' %}">[ Add New Portion ]</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'bytes:portion_add' %}">[ Add New Portion ]</a></li>
+        {% endif %}
     </ul>
 {% endblock content %}

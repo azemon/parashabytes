@@ -1,14 +1,16 @@
 {% extends 'bytes/base.html' %}
 
-{% block title %}List of all Parashot :: Parasha Bytes{% endblock %}
+{% block title %}All Parashot :: Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>List of all Parashot</h1>
+    <h1>All Parashot</h1>
     <ul>
         {% for parasha in parashot %}
             <li>
                 <a href="{% url 'bytes:parasha_detail' parasha.pk %}">{{ parasha.transliterated_name }}</a>
-                [ <a href="{% url 'bytes:parasha_edit' parasha.pk %}">edit</a> ]
+                {% if request.user.is_authenticated %}
+                    [ <a href="{% url 'bytes:parasha_edit' parasha.pk %}">edit</a> ]
+                {% endif %}
                 <ul>
                     {% for portion in parasha.portion_set.all %}
                         <li>{{ portion }}</li>
