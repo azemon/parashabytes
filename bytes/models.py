@@ -21,16 +21,15 @@ class Parasha(models.Model):
     """
     One parasha, including one or more sections of the Tanach
     """
-    english_name = models.CharField(max_length=40, unique=True)
     hebrew_name = models.CharField(max_length=40, unique=True)
     transliterated_name = models.CharField(max_length=40, unique=True)
     notes = models.CharField(max_length=2000, blank=True)
 
     class Meta:
-        ordering = ['english_name']
+        ordering = ['transliterated_name']
 
     def __str__(self):
-        return self.english_name
+        return self.transliterated_name
 
 
 class Portion(models.Model):

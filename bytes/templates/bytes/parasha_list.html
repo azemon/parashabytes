@@ -7,7 +7,7 @@
     <ul>
         {% for parasha in parashot %}
             <li>
-                <a href="{% url 'bytes:parasha_detail' parasha.pk %}">{{ parasha.english_name }}</a>
+                <a href="{% url 'bytes:parasha_detail' parasha.pk %}">{{ parasha.transliterated_name }}</a>
                 [ <a href="{% url 'bytes:parasha_edit' parasha.pk %}">edit</a> ]
                 <ul>
                     {% for portion in parasha.portion_set.all %}

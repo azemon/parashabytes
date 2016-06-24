@@ -1,9 +1,9 @@
 {% extends 'bytes/base.html' %}
 
-{% block title %}Edit Parasha {{ parasha.english_name }} :: Parasha Bytes{% endblock %}
+{% block title %}Edit Parasha {{ parasha.transliterated_name }} :: Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>Edit Parasha {{ parasha.english_name }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
+    <h1>Edit Parasha {{ parasha.transliterated_name }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
     {% if success %}
         <p class="success">{{ success }}</p>
     {% endif %}
