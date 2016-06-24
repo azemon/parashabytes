@@ -3,11 +3,20 @@
 {% block title %}Parasha {{ parasha.english_name }} :: Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>Parasha {{ parasha.english_name }}</h1>
-    <p><span style="font-size: 150%;">{{ parasha.hebrew_name }}</span> <i>{{ parasha.transliterated_name }}</i></p>
-    <ul>
+    <h1>Parasha {{ parasha.english_name }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
+    <dl>
         {% for portion in parasha.portion_set.all %}
-            <li>{{ portion }}</li>
+            <dt>{{ portion }}</dt>
+            <dd>
+                {% for word in portion.words.all %}
+                    <p>
+                        {{ word.english_word }}
+                        (<span class="hebrew">{{ word.hebrew_word }}</span> <i>{{ word.transliterated_word }}</i>)<br>
+                        {{ word.book }} {{ word.chapter }}:{{ word.verse }}<br>
+                        {{ word.description }}
+                    </p>
+                {% endfor %}
+            </dd>
         {% endfor %}
-    </ul>
+    </dl>
 {% endblock content %}

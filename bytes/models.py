@@ -28,6 +28,14 @@ class Parasha(models.Model):
     class Meta:
         ordering = ['english_name']
 
+    def words(self):
+        """
+        return the words in this parasha
+        :return:
+        """
+        #todo return words in all portions, not just the first portion
+        return self.portion_set.first().words()
+
     def __str__(self):
         return self.english_name
 
@@ -56,23 +64,17 @@ class Portion(models.Model):
     class Meta:
         ordering = ['start_sortkey']
 
+    def words(self):
+        """
+        returns the set of words within the bounds of this portion
+        :return:
+        """
+        return Word.objects.filter(sortkey__gte=self.start_sortkey).filter(sortkey__lte=self.end_sortkey)
+
     def __str__(self):
         return '{book} {sc}:{sv}-{ec}:{ev}'.format(book=self.book,
                                                    sc=self.start_chapter, sv=self.start_verse,
                                                    ec=self.end_chapter, ev=self.end_verse)
-
-
-class Word_Location(models.Model):
-    """
-    location of a word in the Tenach
-    """
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    chapter = models.PositiveSmallIntegerField()
-    verse = models.PositiveSmallIntegerField()
-    sortkey = models.PositiveIntegerField()
-
-    def __str__(self):
-        return '{book} {c}:{v}'.format(book=self.book, c=self.chapter, v=self.verse)
 
 
 class Word(models.Model):
@@ -83,10 +85,13 @@ class Word(models.Model):
     hebrew_word = models.CharField(max_length=100, unique=True)
     transliterated_word = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=2000, blank=True)
-    word_location = models.ManyToManyField(Word_Location)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    chapter = models.PositiveSmallIntegerField()
+    verse = models.PositiveSmallIntegerField()
+    sortkey = models.PositiveIntegerField()
 
     class Meta:
         ordering = ['english_word']
 
     def __str__(self):
-        return self.english_word
+        return '{english} ({transliterated})'.format(english=self.english_word, transliterated=self.transliterated_word)
