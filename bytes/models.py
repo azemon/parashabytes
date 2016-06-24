@@ -23,7 +23,13 @@ class Parasha(models.Model):
     english_name = models.CharField(max_length=40, unique=True)
     hebrew_name = models.CharField(max_length=40, unique=True)
     transliterated_name = models.CharField(max_length=40, unique=True)
-    notes = models.CharField(max_length=2000, null=True)
+    notes = models.CharField(max_length=2000, blank=True)
+
+    class Meta:
+        ordering = ['english_name']
+
+    def __str__(self):
+        return self.english_name
 
 
 class Portion(models.Model):
@@ -47,6 +53,14 @@ class Portion(models.Model):
     end_sortkey = models.PositiveIntegerField() # 10209
     description = models.CharField(max_length=40) # Genesis 1:1-2:9
 
+    class Meta:
+        ordering = ['start_sortkey']
+
+    def __str__(self):
+        return '{book} {sc}:{sv}-{ec}:{ev}'.format(book=self.book,
+                                                   sc=self.start_chapter, sv=self.start_verse,
+                                                   ec=self.end_chapter, ev=self.end_verse)
+
 
 class Word_Location(models.Model):
     """
@@ -55,6 +69,10 @@ class Word_Location(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     chapter = models.PositiveSmallIntegerField()
     verse = models.PositiveSmallIntegerField()
+    sortkey = models.PositiveIntegerField()
+
+    def __str__(self):
+        return '{book} {c}:{v}'.format(book=self.book, c=self.chapter, v=self.verse)
 
 
 class Word(models.Model):
@@ -64,5 +82,11 @@ class Word(models.Model):
     english_word = models.CharField(max_length=100, unique=True)
     hebrew_word = models.CharField(max_length=100, unique=True)
     transliterated_word = models.CharField(max_length=100, unique=True)
-    description = models.CharField(max_length=2000, null=True)
+    description = models.CharField(max_length=2000, blank=True)
     word_location = models.ManyToManyField(Word_Location)
+
+    class Meta:
+        ordering = ['english_word']
+
+    def __str__(self):
+        return self.english_word

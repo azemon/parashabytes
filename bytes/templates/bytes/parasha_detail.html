@@ -1,0 +1,13 @@
+{% extends 'bytes/base.html' %}
+
+{% block title %}Parasha {{ parasha.english_name }} :: Parasha Bytes{% endblock %}
+
+{% block content %}
+    <h1>Parasha {{ parasha.english_name }}</h1>
+    <p><span style="font-size: 150%;">{{ parasha.hebrew_name }}</span> <i>{{ parasha.transliterated_name }}</i></p>
+    <ul>
+        {% for portion in parasha.portion_set.all %}
+            <li>{{ portion }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

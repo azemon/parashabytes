@@ -1,0 +1,19 @@
+{% extends 'bytes/base.html' %}
+
+{% block title %}List of all Parashot :: Parasha Bytes{% endblock %}
+
+{% block content %}
+    <h1>List of all Parashot</h1>
+    <ul>
+        {% for parasha in parashot %}
+            <li>
+                <a href="{% url 'bytes:parasha' parasha.pk %}">{{ parasha.english_name }}</a>
+                <ul>
+                    {% for portion in parasha.portion_set.all %}
+                        <li>{{ portion }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

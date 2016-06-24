@@ -13,13 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
-from django.contrib import admin
-from django.views.generic import RedirectView, TemplateView
+from django.conf.urls import url
+from django.views.generic import TemplateView
+
+from .views import parasha_detail, parasha_list
+
+app_name = 'bytes'
 
 urlpatterns = [
-    url(r'^bytes/', include('bytes.urls')),
-    url(r'^admin/', admin.site.urls),
-
-    url(r'^$', RedirectView.as_view(url='bytes/'))
+    url(r'^parasha/$', parasha_list, name='parasha'),
+    url(r'^parasha/(?P<pk>[0-9]+)/$', parasha_detail, name='parasha'),
+    url(r'^$', TemplateView.as_view(template_name='bytes/index.html'), name='index'),
 ]
