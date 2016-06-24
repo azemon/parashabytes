@@ -1,0 +1,15 @@
+{% extends 'bytes/base.html' %}
+
+{% block title %}List of all Portions :: Parasha Bytes{% endblock %}
+
+{% block content %}
+    <h1>List of all Portions</h1>
+    <ul>
+        {% for portion in portions %}
+            <li>
+                {{ portion.description }}
+                [ <a href="{% url 'bytes:portion_edit' portion.pk %}">edit</a> ]
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
