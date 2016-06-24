@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Book(models.Model):
     """
     One book in the Tanach
@@ -28,14 +29,6 @@ class Parasha(models.Model):
     class Meta:
         ordering = ['english_name']
 
-    def words(self):
-        """
-        return the words in this parasha
-        :return:
-        """
-        #todo return words in all portions, not just the first portion
-        return self.portion_set.first().words()
-
     def __str__(self):
         return self.english_name
 
@@ -57,24 +50,30 @@ class Portion(models.Model):
     end_verse = models.PositiveSmallIntegerField()
     parasha = models.ManyToManyField(Parasha)
     # calculated values
-    start_sortkey = models.PositiveIntegerField() # 10101
-    end_sortkey = models.PositiveIntegerField() # 10209
-    description = models.CharField(max_length=40) # Genesis 1:1-2:9
+    start_sortkey = models.PositiveIntegerField()  # 10101
+    end_sortkey = models.PositiveIntegerField()  # 10209
+    description = models.CharField(max_length=40)  # Genesis 1:1-2:9
 
     class Meta:
         ordering = ['start_sortkey']
 
+    def save(self, *args, **kwargs):
+        self.start_sortkey = (self.book.sortkey * 10000) + (self.start_chapter * 100) + self.start_verse
+        self.end_sortkey = (self.book.sortkey * 10000) + (self.end_chapter * 100) + self.end_verse
+        self.description = '{book} {sc}:{sv}-{ec}:{ev}'.format(book=self.book,
+                                                               sc=self.start_chapter, sv=self.start_verse,
+                                                               ec=self.end_chapter, ev=self.end_verse)
+        super().save(*args, **kwargs)
+
     def words(self):
         """
-        returns the set of words within the bounds of this portion
+        returns a queryset of the set of words within the bounds of this portion
         :return:
         """
         return Word.objects.filter(sortkey__gte=self.start_sortkey).filter(sortkey__lte=self.end_sortkey)
 
     def __str__(self):
-        return '{book} {sc}:{sv}-{ec}:{ev}'.format(book=self.book,
-                                                   sc=self.start_chapter, sv=self.start_verse,
-                                                   ec=self.end_chapter, ev=self.end_verse)
+        return self.description
 
 
 class Word(models.Model):
@@ -92,6 +91,10 @@ class Word(models.Model):
 
     class Meta:
         ordering = ['english_word']
+
+    def save(self, *args, **kwargs):
+        self.sortkey = (self.book.sortkey * 10000) + (self.chapter * 100) + self.verse
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return '{english} ({transliterated})'.format(english=self.english_word, transliterated=self.transliterated_word)
