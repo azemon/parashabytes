@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-from .dbsettings import db
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,7 +25,7 @@ SECRET_KEY = 'l6pqo2)b@227!sbj3nso0b@0k^+=@oz*qbfhnu4&#4iq&+pkxz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['parashabytes.zemon.name']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -80,11 +77,8 @@ WSGI_APPLICATION = 'parashabytes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': db['database'],
-        'USER': db['username'],
-        'PASSWORD': db['password'],
-        'HOST': db['hostname'],
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
