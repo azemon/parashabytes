@@ -26,8 +26,8 @@ urlpatterns = [
     url(r'^parasha/(?P<pk>[0-9]+)/edit/$', parasha_edit, name='parasha_edit'),
 
     url(r'^portion/$', portion_list, name='portion'),
-    #url(r'^portion/(?P<pk>[0-9]+)/$', portion_detail, name='portion_detail'),
     url(r'^portion/(?P<pk>[0-9]+)/edit/$', portion_edit, name='portion_edit'),
+    url(r'^portion/add/$', portion_edit, name='portion_add'),
 
     url(r'^$', TemplateView.as_view(template_name='bytes/index.html'), name='index'),
 ]

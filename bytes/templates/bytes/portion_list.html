@@ -6,10 +6,8 @@
     <h1>List of all Portions</h1>
     <ul>
         {% for portion in portions %}
-            <li>
-                {{ portion.description }}
-                [ <a href="{% url 'bytes:portion_edit' portion.pk %}">edit</a> ]
-            </li>
+            <li><a href="{% url 'bytes:portion_edit' portion.pk %}">{{ portion.description }}</a></li>
         {% endfor %}
+        <li><a href="{% url 'bytes:portion_add' %}">[ Add New Portion ]</a></li>
     </ul>
 {% endblock content %}

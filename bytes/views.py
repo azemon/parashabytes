@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 
 from .forms import ParashaForm, PortionForm
@@ -9,6 +10,7 @@ def parasha_detail(request, pk):
     return render(request, 'bytes/parasha_detail.html', {'parasha': parasha})
 
 
+@login_required
 def parasha_edit(request, pk):
     success = None
     parasha = get_object_or_404(Parasha, pk=pk)
@@ -31,9 +33,15 @@ def parasha_list(request):
     return render(request, 'bytes/parasha_list.html', {'parashot': parashot})
 
 
-def portion_edit(request, pk):
+@login_required
+def portion_edit(request, pk=None):
     success = None
-    portion = get_object_or_404(Portion, pk=pk)
+    if pk is not None:
+        portion = get_object_or_404(Portion, pk=pk)
+        button = 'Update'
+    else:
+        portion = Portion()
+        button = 'Add'
     if 'POST' == request.method:
         form = PortionForm(request.POST, instance=portion)
         if form.is_valid():
@@ -41,7 +49,8 @@ def portion_edit(request, pk):
             success = 'Portion updated'
     else:
         form = PortionForm(None, instance=portion)
-    return render(request, 'bytes/portion_edit.html', {'portion': portion, 'form': form, 'success': success})
+    return render(request, 'bytes/portion_edit.html',
+                  {'portion': portion, 'form': form, 'success': success, 'button': button})
 
 
 def portion_list(request):
