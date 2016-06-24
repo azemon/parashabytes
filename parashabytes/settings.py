@@ -28,7 +28,10 @@ SECRET_KEY = 'l6pqo2)b@227!sbj3nso0b@0k^+=@oz*qbfhnu4&#4iq&+pkxz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['parashabytes.zemon.name']
+ALLOWED_HOSTS = [
+    '*',
+    'parashabytes.zemon.name',
+]
 
 
 # Application definition
@@ -125,4 +128,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'http://parashastatic.zemon.name/'
+STATIC_ROOT = '/var/www/vhosts/zemon.name/parashastatic.zemon.name'
