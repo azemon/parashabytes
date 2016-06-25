@@ -1,6 +1,17 @@
 from django.db import models
 
 
+def sortkey(book, chapter, verse):
+    """
+    return the sortkey for a location. they are of the form BBCCVV
+    :param book: Book
+    :param chapter: integer
+    :param verse: integer
+    :return: integer
+    """
+    return (book.sortkey * 10000) + (chapter * 100) + verse
+
+
 class Book(models.Model):
     """
     One book in the Tanach
@@ -57,8 +68,8 @@ class Portion(models.Model):
         ordering = ['start_sortkey']
 
     def save(self, *args, **kwargs):
-        self.start_sortkey = (self.book.sortkey * 10000) + (self.start_chapter * 100) + self.start_verse
-        self.end_sortkey = (self.book.sortkey * 10000) + (self.end_chapter * 100) + self.end_verse
+        self.start_sortkey = sortkey(self.book, self.start_chapter, self.start_verse)
+        self.end_sortkey = sortkey(self.book, self.end_chapter, self.end_verse)
         self.description = '{book} {sc}:{sv}-{ec}:{ev}'.format(book=self.book,
                                                                sc=self.start_chapter, sv=self.start_verse,
                                                                ec=self.end_chapter, ev=self.end_verse)
@@ -88,7 +99,7 @@ class Location(models.Model):
         ordering = ['sortkey']
 
     def save(self, *args, **kwargs):
-        self.sortkey = (self.book.sortkey * 10000) + (self.chapter * 100) + self.verse
+        self.sortkey = sortkey(self.book, self.chapter, self.verse)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -103,10 +114,6 @@ class Word(models.Model):
     hebrew_word = models.CharField(max_length=100, unique=True)
     transliterated_word = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=2000, blank=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    chapter = models.PositiveSmallIntegerField()
-    verse = models.PositiveSmallIntegerField()
-    sortkey = models.PositiveIntegerField()
     location = models.ManyToManyField(Location)
 
     class Meta:
