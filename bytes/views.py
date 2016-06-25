@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 
-from .forms import ParashaForm, PortionForm
-from .models import Parasha, Portion
+from .forms import ParashaForm, ReadingForm
+from .models import Parasha, Reading
 
 
 def parasha_detail(request, pk):
@@ -34,29 +34,29 @@ def parasha_list(request):
 
 
 @login_required
-def portion_edit(request, pk=None):
+def reading_edit(request, pk=None):
     success = None
     if pk is not None:
-        portion = get_object_or_404(Portion, pk=pk)
+        reading = get_object_or_404(Reading, pk=pk)
         button = 'Update'
     else:
-        portion = Portion()
+        reading = Reading()
         button = 'Add'
     if 'POST' == request.method:
-        form = PortionForm(request.POST, instance=portion)
+        form = ReadingForm(request.POST, instance=reading)
         if form.is_valid():
             form.save()
-            success = 'Portion updated'
+            success = 'Reading updated'
     else:
-        form = PortionForm(None, instance=portion)
-    return render(request, 'bytes/portion_edit.html',
-                  {'portion': portion, 'form': form, 'success': success, 'button': button})
+        form = ReadingForm(None, instance=reading)
+    return render(request, 'bytes/reading_edit.html',
+                  {'reading': reading, 'form': form, 'success': success, 'button': button})
 
 
-def portion_list(request):
+def reading_list(request):
     """
-    list all portions of the Tenach
+    list all readings of the Tenach
     :return:
     """
-    portions = Portion.objects.all()
-    return render(request, 'bytes/portion_list.html', {'portions': portions})
+    readings = Reading.objects.all()
+    return render(request, 'bytes/reading_list.html', {'readings': readings})

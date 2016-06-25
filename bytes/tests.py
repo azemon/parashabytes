@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import *
+from .models import Book, Reading, Parasha
 
 
 ENGLISH_BOOK = 'english book'
@@ -16,21 +16,21 @@ def create_book():
     return book
 
 
-def create_portion(book):
-    portion = Portion.objects.create(
+def create_reading(book):
+    reading = Reading.objects.create(
         book=book,
         start_chapter=10,
         start_verse=11,
         end_chapter=20,
         end_verse=22,
     )
-    return portion
+    return reading
 
 
 class ParashaTest(TestCase):
     def setUp(self):
         book = create_book()
-        self.portion = create_portion(book)
+        self.reading = create_reading(book)
 
     def test_create_parasha(self):
         parasha = Parasha.objects.create(
@@ -39,26 +39,26 @@ class ParashaTest(TestCase):
             transliterated_name='transliterated name',
             notes='parasha note'
         )
-        parasha.portion_set.add(self.portion)
+        parasha.reading_set.add(self.reading)
         parasha.save()
-        self.assertEqual(parasha.portion_set.first(), self.portion)
+        self.assertEqual(parasha.reading_set.first(), self.reading)
 
 
-class PortionTest(TestCase):
+class ReadingTest(TestCase):
     def setUp(self):
         self.book = create_book()
 
-    def test_create_portion(self):
-        portion = Portion.objects.create(
+    def test_create_reading(self):
+        reading = Reading.objects.create(
             book=self.book,
             start_chapter=10,
             start_verse=11,
             end_chapter=20,
             end_verse=22,
         )
-        self.assertEqual(portion.start_sortkey, (self.book.sortkey * 10000) + 1000 + 11, 'incorrect start sortkey')
-        self.assertEqual(portion.end_sortkey, (self.book.sortkey * 10000) + 2000 + 22, 'incorrect end sortkey')
-        self.assertEqual(portion.description, ENGLISH_BOOK + ' 10:11-20:22', 'incorrect description')
+        self.assertEqual(reading.start_sortkey, (self.book.sortkey * 10000) + 1000 + 11, 'incorrect start sortkey')
+        self.assertEqual(reading.end_sortkey, (self.book.sortkey * 10000) + 2000 + 22, 'incorrect end sortkey')
+        self.assertEqual(reading.description, ENGLISH_BOOK + ' 10:11-20:22', 'incorrect description')
 
 
 class WordTest(TestCase):

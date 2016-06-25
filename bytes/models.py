@@ -43,9 +43,9 @@ class Parasha(models.Model):
         return self.transliterated_name
 
 
-class Portion(models.Model):
+class Reading(models.Model):
     """
-    Portion of the Tanach including starting and ending book + chapter + verse
+    Reading of the Tanach including starting and ending book + chapter + verse
     Part of one or more parashot
     Sort keys are integers in this form:
       BCCVV
@@ -77,7 +77,7 @@ class Portion(models.Model):
 
     def words(self):
         """
-        returns a queryset of the set of words within the bounds of this portion
+        returns a queryset of the set of words within the bounds of this reading
         :return:
         """
         return Word.objects.filter(sortkey__gte=self.start_sortkey).filter(sortkey__lte=self.end_sortkey)

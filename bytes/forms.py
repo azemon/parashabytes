@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Parasha, Portion
+from .models import Parasha, Reading
 
 
 class ParashaForm(ModelForm):
@@ -9,7 +9,7 @@ class ParashaForm(ModelForm):
         exclude = []
 
 
-class PortionForm(ModelForm):
+class ReadingForm(ModelForm):
     class Meta:
-        model = Portion
+        model = Reading
         exclude = ['start_sortkey', 'end_sortkey', 'description']

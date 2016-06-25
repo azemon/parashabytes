@@ -1,9 +1,9 @@
 {% extends 'bytes/base.html' %}
 
-{% block title %}Portion {{ portion.description }} :: Parasha Bytes{% endblock %}
+{% block title %}Reading {{ reading.description }} :: Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>Portion {{ portion.description }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
+    <h1>Reading {{ reading.description }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
     {% if success %}
         <p class="success">{{ success }}</p>
     {% endif %}
