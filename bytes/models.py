@@ -75,6 +75,26 @@ class Portion(models.Model):
         return self.description
 
 
+class Location(models.Model):
+    """
+    location of a word in the Tenach
+    """
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    chapter = models.PositiveSmallIntegerField()
+    verse = models.PositiveSmallIntegerField()
+    sortkey = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ['sortkey']
+
+    def save(self, *args, **kwargs):
+        self.sortkey = (self.book.sortkey * 10000) + (self.chapter * 100) + self.verse
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return '{book} {c}:{v}'.format(book=self.book, c=self.chapter, v=self.verse)
+
+
 class Word(models.Model):
     """
     one word or phrase mentioned in the Tenach
@@ -87,6 +107,7 @@ class Word(models.Model):
     chapter = models.PositiveSmallIntegerField()
     verse = models.PositiveSmallIntegerField()
     sortkey = models.PositiveIntegerField()
+    location = models.ManyToManyField(Location)
 
     class Meta:
         ordering = ['english_word']
