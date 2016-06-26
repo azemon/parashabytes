@@ -62,7 +62,7 @@ class Reading(models.Model):
     # calculated values
     start_sortkey = models.PositiveIntegerField()  # 10101
     end_sortkey = models.PositiveIntegerField()  # 10209
-    description = models.CharField(max_length=40)  # Genesis 1:1-2:9
+    description = models.CharField(max_length=40, unique=True)  # Genesis 1:1-2:9
 
     class Meta:
         ordering = ['start_sortkey']
