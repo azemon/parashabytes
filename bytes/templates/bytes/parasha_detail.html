@@ -4,21 +4,25 @@
 
 {% block content %}
     <h1>Parasha {{ parasha.transliterated_name }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
-    <dl>
-        {% for reading in parasha.reading_set.all %}
-            <dt>{{ reading }}</dt>
-            {% comment %}
-            <dd>
-                {% for word in reading.words.all %}
-                    <p>
-                        {{ word.english_word }}
-                        (<span class="hebrew">{{ word.hebrew_word }}</span> <i>{{ word.transliterated_word }}</i>)<br>
-                        {{ word.book }} {{ word.chapter }}:{{ word.verse }}<br>
-                        {{ word.description }}
-                    </p>
+
+    <h2>Words</h2>
+    <ul>
+        {% for word in word_set %}
+            <li>
+                {{ word.english_word }} &bull; <span class="hebrew">{{ word.hebrew_word }}</span> <i>{{ word.transliterated_word }}</i><br>
+                {{ word.description }}<br>
+                {# todo: display restricted location set #}
+                {% for location in word.location.all %}
+                    {{ location }},
                 {% endfor %}
-            </dd>
-            {% endcomment %}
+            </li>
         {% endfor %}
-    </dl>
+    </ul>
+
+    <h2>Readings</h2>
+    <ul>
+        {% for reading in parasha.reading_set.all %}
+            <li>{{ reading }}</li>
+       {% endfor %}
+    </ul>
 {% endblock content %}

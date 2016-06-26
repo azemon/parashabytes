@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 
 
 def sortkey(book, chapter, verse):
@@ -38,6 +39,32 @@ class Parasha(models.Model):
 
     class Meta:
         ordering = ['transliterated_name']
+
+    def location_set(self):
+        """
+        return a set of all eoflocations within this parasha
+        :return: set of locations
+        """
+        location_list = []
+        for reading in self.reading_set.all():
+            qs = Location.objects.filter(sortkey__gte=reading.start_sortkey)
+            qs = qs.filter(sortkey__lte=reading.end_sortkey)
+            for location in qs:
+                location_list.append(location)
+        location_set = set(location_list)
+        return location_set
+
+    def word_set(self):
+        """
+        get the set of words within this parasha
+        :return: set of words
+        """
+        word_list = []
+        for location in self.location_set():
+            for word in location.word_set.all():
+                word_list.append(word)
+        word_set = set(word_list)
+        return word_set
 
     def __str__(self):
         return self.transliterated_name

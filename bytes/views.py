@@ -10,6 +10,20 @@ class ParashaDetailView(DetailView):
     template_name = 'bytes/parasha_detail.html'
     context_object_name = 'parasha'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        parasha = context['parasha']
+        # todo: created a set of locations for each word, restricted by the parasha's locations
+        location_list = []
+        for word in parasha.word_set():
+            location_set = word.location.all()
+            for location in location_set:
+                location_list.append(location)
+        context.update({
+            'word_set': parasha.word_set()
+        })
+        return context
+
 
 class ParashaUpdateView(UpdateView):
     model = Parasha
