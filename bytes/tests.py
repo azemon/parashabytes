@@ -1,6 +1,7 @@
+from django.db.utils import IntegrityError
 from django.test import TestCase
 
-from .models import Book, Reading, Parasha
+from .models import Book, Location, Parasha, Reading, Word
 
 
 ENGLISH_BOOK = 'english book'
@@ -16,6 +17,15 @@ def create_book():
     return book
 
 
+def create_location(book):
+    location = Location.objects.create(
+        book=book,
+        chapter=1,
+        verse=1
+    )
+    return location
+
+
 def create_reading(book):
     reading = Reading.objects.create(
         book=book,
@@ -27,6 +37,33 @@ def create_reading(book):
     return reading
 
 
+class LocationTest(TestCase):
+    def setUp(self):
+        self.book = create_book()
+
+    def test_create_location(self):
+        location = Location.objects.create(
+            book=self.book,
+            chapter=10,
+            verse=11
+        )
+        self.assertEqual(location.sortkey, (self.book.sortkey * 10000) + 1000 + 11, 'incorrect start sortkey')
+
+    def test_create_location_error(self):
+        def create_two_locations():
+            Location.objects.create(
+                book=self.book,
+                chapter=10,
+                verse=11
+            )
+            Location.objects.create(
+                book=self.book,
+                chapter=10,
+                verse=11
+            )
+        self.assertRaises(IntegrityError, create_two_locations)
+
+
 class ParashaTest(TestCase):
     def setUp(self):
         book = create_book()
@@ -34,7 +71,6 @@ class ParashaTest(TestCase):
 
     def test_create_parasha(self):
         parasha = Parasha.objects.create(
-            english_name='english name',
             hebrew_name='hebrew name',
             transliterated_name='transliterated name',
             notes='parasha note'
@@ -64,15 +100,25 @@ class ReadingTest(TestCase):
 class WordTest(TestCase):
     def setUp(self):
         self.book = create_book()
+        self.location = create_location(self.book)
+
 
     def test_create_word(self):
-        word = Word.objects.create(
+        Word.objects.create(
             english_word='english',
             hebrew_word='hebrew',
             transliterated_word='transliterate',
-            description='the description',
-            book=self.book,
-            chapter=2,
-            verse=3
+            description='the description'
         )
-        self.assertEqual(word.sortkey, (self.book.sortkey * 10000) + 200 + 3, 'incorrect sortkey')
+
+
+    def test_create_word_with_location(self):
+        word = Word.objects.create(
+            english_word='english 2',
+            hebrew_word='hebrew 2',
+            transliterated_word='transliterate 2',
+            description='the description'
+        )
+        word.location.add(self.location)
+        retrieved_location = word.location.all().first()
+        self.assertEqual(self.location, retrieved_location)
