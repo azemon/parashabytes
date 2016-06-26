@@ -1,12 +1,13 @@
 {% extends 'bytes/base.html' %}
 
-{% block title %}Parasha {{ parasha.english_name }} :: Parasha Bytes{% endblock %}
+{% block title %}Parasha {{ parasha.transliterated_name }} {{ parasha.hebrew_name }} :: Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>Parasha {{ parasha.english_name }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
+    <h1>Parasha {{ parasha.transliterated_name }} <span class="hebrew">{{ parasha.hebrew_name }}</span></h1>
     <dl>
         {% for reading in parasha.reading_set.all %}
             <dt>{{ reading }}</dt>
+            {% comment %}
             <dd>
                 {% for word in reading.words.all %}
                     <p>
@@ -17,6 +18,7 @@
                     </p>
                 {% endfor %}
             </dd>
+            {% endcomment %}
         {% endfor %}
     </dl>
 {% endblock content %}

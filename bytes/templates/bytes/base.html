@@ -52,8 +52,9 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="{% block class_index_active %}{% endblock %}"><a href="/bytes/">Parasha Bytes</a></li>
-              <li class="{% block class_admin_active %}{% endblock %}"><a href="/admin/">Admin</a></li>
+              <li><a href="{% url 'bytes:parasha' %}">Parashot</a></li>
+              <li><a href="{% url 'bytes:reading' %}">Readings</a></li>
+              <li><a href="/admin/">Admin</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

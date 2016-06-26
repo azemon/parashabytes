@@ -1,62 +1,44 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from .forms import ParashaForm, ReadingForm
 from .models import Parasha, Reading
 
 
-def parasha_detail(request, pk):
-    parasha = get_object_or_404(Parasha, pk=pk)
-    return render(request, 'bytes/parasha_detail.html', {'parasha': parasha})
+class ParashaDetailView(DetailView):
+    model = Parasha
+    template_name = 'bytes/parasha_detail.html'
+    context_object_name = 'parasha'
 
 
-@login_required
-def parasha_edit(request, pk):
-    success = None
-    parasha = get_object_or_404(Parasha, pk=pk)
-    if 'POST' == request.method:
-        form = ParashaForm(request.POST, instance=parasha)
-        if form.is_valid():
-            form.save()
-            success = 'Parasha updated'
-    else:
-        form = ParashaForm(None, instance=parasha)
-    return render(request, 'bytes/parasha_edit.html', {'parasha': parasha, 'form': form, 'success': success})
+class ParashaUpdateView(UpdateView):
+    model = Parasha
+    form_class = ParashaForm
+    template_name = 'bytes/parasha_update.html'
+    success_url = reverse_lazy('bytes:parasha')
 
 
-def parasha_list(request):
-    """
-    list all parashot
-    :return:
-    """
-    parashot = Parasha.objects.all()
-    return render(request, 'bytes/parasha_list.html', {'parashot': parashot})
+class ParashaListView(ListView):
+    model = Parasha
+    template_name = 'bytes/parasha_list.html'
+    context_object_name = 'parashot'
 
 
-@login_required
-def reading_edit(request, pk=None):
-    success = None
-    if pk is not None:
-        reading = get_object_or_404(Reading, pk=pk)
-        button = 'Update'
-    else:
-        reading = Reading()
-        button = 'Add'
-    if 'POST' == request.method:
-        form = ReadingForm(request.POST, instance=reading)
-        if form.is_valid():
-            form.save()
-            success = 'Reading updated'
-    else:
-        form = ReadingForm(None, instance=reading)
-    return render(request, 'bytes/reading_edit.html',
-                  {'reading': reading, 'form': form, 'success': success, 'button': button})
+class ReadingCreateView(CreateView):
+    model = Reading
+    form_class = ReadingForm
+    template_name = 'bytes/reading_create.html'
+    success_url = reverse_lazy('bytes:reading')
 
 
-def reading_list(request):
-    """
-    list all readings of the Tenach
-    :return:
-    """
-    readings = Reading.objects.all()
-    return render(request, 'bytes/reading_list.html', {'readings': readings})
+class ReadingListView(ListView):
+    model = Reading
+    template_name = 'bytes/reading_list.html'
+    context_object_name = 'readings'
+
+
+class ReadingUpdateView(UpdateView):
+    model = Reading
+    form_class = ReadingForm
+    template_name = 'bytes/reading_update.html'
+    success_url = reverse_lazy('bytes:reading')

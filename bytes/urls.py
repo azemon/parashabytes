@@ -16,18 +16,46 @@ Including another URLconf
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
-from .views import parasha_detail, parasha_edit, parasha_list, reading_edit, reading_list
+from .views import ParashaDetailView, ParashaListView, ParashaUpdateView, ReadingCreateView, ReadingListView, \
+    ReadingUpdateView
 
 app_name = 'bytes'
 
 urlpatterns = [
-    url(r'^parasha/$', parasha_list, name='parasha'),
-    url(r'^parasha/(?P<pk>[0-9]+)/$', parasha_detail, name='parasha_detail'),
-    url(r'^parasha/(?P<pk>[0-9]+)/edit/$', parasha_edit, name='parasha_edit'),
+    url(
+        regex=r'^parasha/$',
+        view=ParashaListView.as_view(),
+        name='parasha'
+    ),
+    url(
+        regex=r'^parasha/(?P<pk>[0-9]+)/$',
+        view=ParashaDetailView.as_view(),
+        name='parasha_detail'
+    ),
+    url(
+        regex=r'^parasha/(?P<pk>[0-9]+)/edit/$',
+        view=ParashaUpdateView.as_view(),
+        name='parasha_edit'
+    ),
 
-    url(r'^reading/$', reading_list, name='reading'),
-    url(r'^reading/(?P<pk>[0-9]+)/edit/$', reading_edit, name='reading_edit'),
-    url(r'^reading/add/$', reading_edit, name='reading_add'),
+    url(
+        regex=r'^reading/$',
+        view=ReadingListView.as_view(),
+        name='reading'
+    ),
+    url(
+        regex=r'^reading/(?P<pk>[0-9]+)/edit/$',
+        view=ReadingUpdateView.as_view(),
+        name='reading_edit'
+    ),
+    url(
+        regex=r'^reading/add/$',
+        view=ReadingCreateView.as_view(),
+        name='reading_add'
+    ),
 
-    url(r'^$', TemplateView.as_view(template_name='bytes/index.html'), name='index'),
+    url(
+        regex=r'^$',
+        view=TemplateView.as_view(template_name='bytes/index.html'),
+        name='index'),
 ]
