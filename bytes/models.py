@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import F
 
 
 def sortkey(book, chapter, verse):
@@ -132,6 +131,14 @@ class Location(models.Model):
     def __str__(self):
         return '{book} {c}:{v}'.format(book=self.book, c=self.chapter, v=self.verse)
 
+    def __lt__(self, other):
+        """
+        support Python's sorted() function
+        :param other: Location
+        :return: boolean
+        """
+        return self.sortkey < other.sortkey
+
 
 class Word(models.Model):
     """
@@ -145,6 +152,25 @@ class Word(models.Model):
 
     class Meta:
         ordering = ['english_word']
+
+    def location_set(self):
+        """
+        set of locations where this word appears
+        :return: set of locations
+        """
+        location_list = []
+        for location in self.location.all():
+            location_list.append(location)
+        location_set = set(location_list)
+        return location_set
+
+    def sorted_locations_within_parsha(self, parasha_location_set):
+        """
+        sorted list of locations, withing a parashar, where this word appears
+        :return: list of locations
+        """
+        locations = self.location_set().intersection(parasha_location_set)
+        return sorted(locations)
 
     def __str__(self):
         return '{english} ({transliterated})'.format(english=self.english_word, transliterated=self.transliterated_word)

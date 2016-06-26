@@ -1,5 +1,4 @@
-from .models import Book, Location, Reading
-
+from .models import Book, Location, Parasha, Reading, Word
 
 ENGLISH_BOOK = 'english book'
 
@@ -24,12 +23,32 @@ def create_location(book, chapter=1, verse=1):
     return location
 
 
-def create_reading(book):
+def create_parasha(hebrew_name='hebrew name', transliterated_name='transliterated name', notes='parasha note'):
+    parasha = Parasha.objects.create(
+        hebrew_name=hebrew_name,
+        transliterated_name=transliterated_name,
+        notes=notes
+    )
+    return parasha
+
+
+def create_reading(book, start_chapter=10, start_verse=11, end_chapter=20, end_verse=22):
     reading = Reading.objects.create(
         book=book,
-        start_chapter=10,
-        start_verse=11,
-        end_chapter=20,
-        end_verse=22,
+        start_chapter=start_chapter,
+        start_verse=start_verse,
+        end_chapter=end_chapter,
+        end_verse=end_verse
     )
     return reading
+
+
+def create_word(english_word='english word', hebrew_word='hebrew word', transliterated_word='transliterated word',
+                description='word description'):
+    word = Word.objects.create(
+        english_word=english_word,
+        hebrew_word=hebrew_word,
+        transliterated_word=transliterated_word,
+        description=description
+    )
+    return word
