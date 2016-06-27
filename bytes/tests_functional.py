@@ -84,14 +84,17 @@ class FunctionalTest(TestCase):
         self.assertNotIn(self.word3, self.parasha2.word_set())
 
     def test_parasha_word_locations(self):
-        plist = self.word1.sorted_locations_within_parsha(self.parasha1.location_set())
+        self.word1.parasha(self.parasha1)
+        plist = self.word1.sorted_locations_within_parsha()
         should_be = [self.location1a, self.location1b, self.location3a]
         self.assertEqual(plist, should_be)
 
-        plist = self.word2.sorted_locations_within_parsha(self.parasha1.location_set())
+        self.word2.parasha(self.parasha1)
+        plist = self.word2.sorted_locations_within_parsha()
         should_be = [self.location1a, self.location1b, self.location3a, self.location3b]
         self.assertEqual(plist, should_be)
 
-        plist = self.word2.sorted_locations_within_parsha(self.parasha2.location_set())
+        self.word2.parasha(self.parasha2)
+        plist = self.word2.sorted_locations_within_parsha()
         should_be = [self.location2a, self.location2b]
         self.assertEqual(plist, should_be)

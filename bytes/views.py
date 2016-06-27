@@ -13,14 +13,12 @@ class ParashaDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         parasha = context['parasha']
-        # todo: created a set of locations for each word, restricted by the parasha's locations
-        location_list = []
+        word_list = []
         for word in parasha.word_set():
-            location_set = word.location.all()
-            for location in location_set:
-                location_list.append(location)
+            word.parasha(parasha)
+            word_list.append(word)
         context.update({
-            'word_set': parasha.word_set()
+            'word_list': sorted(word_list)
         })
         return context
 

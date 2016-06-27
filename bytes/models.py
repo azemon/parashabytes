@@ -150,6 +150,8 @@ class Word(models.Model):
     description = models.CharField(max_length=2000, blank=True)
     location = models.ManyToManyField(Location)
 
+    _parasha = None
+
     class Meta:
         ordering = ['english_word']
 
@@ -164,13 +166,28 @@ class Word(models.Model):
         location_set = set(location_list)
         return location_set
 
-    def sorted_locations_within_parsha(self, parasha_location_set):
+    def parasha(self, p):
+        self._parasha = p
+
+    def sorted_locations_within_parsha(self):
         """
         sorted list of locations, withing a parashar, where this word appears
         :return: list of locations
         """
+        if self._parasha is not None:
+            parasha_location_set = self._parasha.location_set()
+        else:
+            return []
         locations = self.location_set().intersection(parasha_location_set)
         return sorted(locations)
 
     def __str__(self):
         return '{english} ({transliterated})'.format(english=self.english_word, transliterated=self.transliterated_word)
+
+    def __lt__(self, other):
+        """
+        support Python's sorted() function
+        :param other: Location
+        :return: boolean
+        """
+        return self.english_word < other.english_word
