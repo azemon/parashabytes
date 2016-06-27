@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
+from braces.views import LoginRequiredMixin
+
 from .forms import ParashaForm, ReadingForm
 from .models import Parasha, Reading
 
@@ -23,11 +25,12 @@ class ParashaDetailView(DetailView):
         return context
 
 
-class ParashaUpdateView(UpdateView):
+class ParashaUpdateView(LoginRequiredMixin, UpdateView):
     model = Parasha
     form_class = ParashaForm
     template_name = 'bytes/parasha_update.html'
     success_url = reverse_lazy('bytes:parasha')
+    login_url = reverse_lazy('admin:login')
 
 
 class ParashaListView(ListView):
@@ -36,11 +39,12 @@ class ParashaListView(ListView):
     context_object_name = 'parashot'
 
 
-class ReadingCreateView(CreateView):
+class ReadingCreateView(LoginRequiredMixin, CreateView):
     model = Reading
     form_class = ReadingForm
     template_name = 'bytes/reading_create.html'
     success_url = reverse_lazy('bytes:reading')
+    login_url = reverse_lazy('admin:login')
 
 
 class ReadingListView(ListView):
@@ -49,8 +53,9 @@ class ReadingListView(ListView):
     context_object_name = 'readings'
 
 
-class ReadingUpdateView(UpdateView):
+class ReadingUpdateView(LoginRequiredMixin, UpdateView):
     model = Reading
     form_class = ReadingForm
     template_name = 'bytes/reading_update.html'
     success_url = reverse_lazy('bytes:reading')
+    login_url = reverse_lazy('admin:login')
