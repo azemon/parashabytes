@@ -16,12 +16,25 @@ Including another URLconf
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
-from .views import ParashaDetailView, ParashaListView, ParashaUpdateView, ReadingCreateView, ReadingListView, \
-    ReadingUpdateView
+from .views_location import LocationCreateView, LocationListView
+from .views_parasha import ParashaDetailView, ParashaListView, ParashaUpdateView
+from .views_reading import ReadingCreateView, ReadingListView, ReadingUpdateView
+from .views_word import WordCreateView, WordDetailView, WordListView, WordUpdateView
 
 app_name = 'bytes'
 
 urlpatterns = [
+    url(
+        regex=r'location/$',
+        view=LocationListView.as_view(),
+        name='location'
+    ),
+    url(
+        regex=r'location/add/$',
+        view=LocationCreateView.as_view(),
+        name='location_add'
+    ),
+
     url(
         regex=r'^parasha/$',
         view=ParashaListView.as_view(),
@@ -52,6 +65,27 @@ urlpatterns = [
         regex=r'^reading/add/$',
         view=ReadingCreateView.as_view(),
         name='reading_add'
+    ),
+
+    url(
+        regex=r'^word/$',
+        view=WordListView.as_view(),
+        name='word'
+    ),
+    url(
+        regex=r'^word/(?P<pk>[0-9]+)/$',
+        view=WordDetailView.as_view(),
+        name='word_detail'
+    ),
+    url(
+        regex=r'^word/(?P<pk>[0-9]+)/edit/$',
+        view=WordUpdateView.as_view(),
+        name='word_edit'
+    ),
+    url(
+        regex=r'^word/add/$',
+        view=WordCreateView.as_view(),
+        name='word_add'
     ),
 
     url(

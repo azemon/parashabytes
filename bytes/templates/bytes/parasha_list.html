@@ -8,7 +8,6 @@
         {% for parasha in parashot %}
             <li>
                 <a href="{% url 'bytes:parasha_detail' parasha.pk %}">{{ parasha.transliterated_name }}</a>
-                <a href="{% url 'bytes:parasha_edit' parasha.pk %}"><button class="btn-default">Edit</button> </a>
                 <ul>
                     {% for reading in parasha.reading_set.all %}
                         <li>{{ reading }}</li>

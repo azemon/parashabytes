@@ -24,4 +24,6 @@
             <li>{{ reading }}</li>
        {% endfor %}
     </ul>
+
+    <p><a href="{% url 'bytes:parasha_edit' parasha.pk %}"><button class="btn-default">Edit Parasha</button> </a></p>
 {% endblock content %}

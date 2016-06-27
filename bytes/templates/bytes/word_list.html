@@ -1,0 +1,15 @@
+{% extends 'bytes/base.html' %}
+
+{% block title %}All Words :: Parasha Bytes{% endblock %}
+
+{% block content %}
+    <h1>All Words</h1>
+    <ul>
+        {% for word in words %}
+            <li>
+                <a href="{% url 'bytes:word_detail' word.pk %}">{{ word }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'bytes:word_add' %}"><button class="btn-default">Add New Word</button> </a></p>
+{% endblock content %}
