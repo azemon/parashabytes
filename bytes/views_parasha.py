@@ -1,10 +1,11 @@
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import DetailView, ListView, UpdateView
 
 from braces.views import LoginRequiredMixin
 
 from .forms import ParashaForm
 from .models import Parasha
+from .views_util import ConfirmationMessageMixin
 
 
 class ParashaDetailView(DetailView):
@@ -31,9 +32,10 @@ class ParashaListView(ListView):
     context_object_name = 'parashot'
 
 
-class ParashaUpdateView(LoginRequiredMixin, UpdateView):
+class ParashaUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):
     model = Parasha
     form_class = ParashaForm
     template_name = 'bytes/parasha_update.html'
     success_url = reverse_lazy('bytes:parasha')
+    success_message = 'Parasha successfully updated'
     login_url = reverse_lazy('admin:login')
