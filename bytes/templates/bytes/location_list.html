@@ -6,7 +6,7 @@
     <h1>All Locations</h1>
     <ul>
         {% for location in locations %}
-            <li>{{ location }}</li>
+            <li>{{ location }} - {{ location.word_set.count }} words</li>
         {% endfor %}
     </ul>
     <p><a href="{% url 'bytes:location_add' %}"><button class="btn-default">Add New Location</button> </a></p>

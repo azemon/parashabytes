@@ -7,7 +7,7 @@
     <ul>
         {% for word in words %}
             <li>
-                <a href="{% url 'bytes:word_detail' word.pk %}">{{ word }}</a>
+                <a href="{% url 'bytes:word_detail' word.pk %}">{{ word }}</a>: {{ word.location.count }} locations
             </li>
         {% endfor %}
     </ul>
