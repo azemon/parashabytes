@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -40,6 +41,23 @@ class WordListView(ListView):
     model = Word
     template_name = 'bytes/word_list.html'
     context_object_name = 'words'
+
+    def get_queryset(self):
+        # start with the default/full queryset
+        queryset = super(WordListView, self).get_queryset()
+
+        # get the q parameter from the URL
+        q = self.request.GET.get('q')
+        if q:
+            # return a filtered queryset
+            return queryset.filter(
+                Q(english_word__icontains=q) |
+                Q(hebrew_word__icontains=q) |
+                Q(transliterated_word__icontains=q) |
+                Q(description__icontains=q)
+            )
+        else:
+            return queryset
 
 
 class WordUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):

@@ -1,0 +1,9 @@
+{% comment %}
+    search form for words
+    Usage: {% include 'bytes/_word_search.html' %}
+{% endcomment %}
+
+<form action="{% url 'bytes:word' %}" method="get">
+    <input type="text" name="q">
+    <button type="submit">Search</button>
+</form>

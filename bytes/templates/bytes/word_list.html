@@ -1,15 +1,31 @@
 {% extends 'bytes/base.html' %}
 
-{% block title %}All Words :: Parasha Bytes{% endblock %}
+{% block title %}Words :: Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>All Words</h1>
-    <ul>
-        {% for word in words %}
-            <li>
-                <a href="{% url 'bytes:word_detail' word.pk %}">{{ word }}</a>: {{ word.location.count }} locations
-            </li>
-        {% endfor %}
-    </ul>
-    <p><a href="{% url 'bytes:word_add' %}"><button class="btn-default">Add New Word</button> </a></p>
+    <div class="row">
+        <h1>
+            Words
+            {% if request.GET.q %}
+                Containing "{{ request.GET.q }}"
+            {% endif %}
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <ul>
+                {% for word in words %}
+                    <li>
+                        <a href="{% url 'bytes:word_detail' word.pk %}">{{ word }}</a>: {{ word.location.count }} locations
+                    </li>
+                {% endfor %}
+            </ul>
+            <p><a href="{% url 'bytes:word_add' %}"><button class="btn-default">Add New Word</button> </a></p>
+        </div>
+        <div class="col-sm-4">
+            Search in English or Hebrew<br>
+            {% include 'bytes/_word_search.html' %}
+        </div>
+    </div>
 {% endblock content %}
