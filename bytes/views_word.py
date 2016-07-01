@@ -45,6 +45,7 @@ class WordListView(ListView):
     def get_queryset(self):
         # start with the default/full queryset
         queryset = super(WordListView, self).get_queryset()
+        queryset = queryset.prefetch_related('location')
 
         # get the q parameter from the URL
         q = self.request.GET.get('q')

@@ -31,6 +31,11 @@ class ParashaListView(ListView):
     template_name = 'bytes/parasha_list.html'
     context_object_name = 'parashot'
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.prefetch_related('reading_set')
+        return qs
+
 
 class ParashaUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):
     model = Parasha
