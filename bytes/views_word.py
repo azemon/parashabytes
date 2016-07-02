@@ -36,6 +36,10 @@ class WordDetailView(DetailView):
     template_name = 'bytes/word_detail.html'
     context_object_name = 'word'
 
+    def get_queryset(self):
+        queryset = super(WordDetailView, self).get_queryset()
+        return queryset.prefetch_related('location')
+
 
 class WordListView(ListView):
     model = Word

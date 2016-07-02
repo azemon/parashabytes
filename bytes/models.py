@@ -1,3 +1,5 @@
+import requests
+
 from django.db import models
 
 
@@ -127,6 +129,17 @@ class Location(models.Model):
     def save(self, *args, **kwargs):
         self.sortkey = sortkey(self.book, self.chapter, self.verse)
         super().save(*args, **kwargs)
+
+    def text(self):
+        """
+        return the text for the location, from sefaria.org
+        :return:
+        """
+        sefaria_url = 'http://www.sefaria.org/api/texts/{book}.{chapter}.{verse}?context=0&content=0'.format(
+            book=self.book.english_name, chapter=self.chapter, verse=self.verse
+        )
+        text = requests.get(sefaria_url).json()
+        return text
 
     def __str__(self):
         return '{book} {c}:{v}'.format(book=self.book, c=self.chapter, v=self.verse)

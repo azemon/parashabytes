@@ -11,7 +11,15 @@
 
     <ul>
         {% for location in word.location.all %}
-            <li>{{ location }}</li>
+            <li>
+                <div>{{ location }}</div>
+                {% autoescape off %}
+                    <div class="row">
+                        <div class="col-sm-6">{{ location.text.text }}</div>
+                        <div class="col-md-6 hebrew">{{ location.text.he }}</div>
+                    </div>
+                {% endautoescape %}
+            </li>
         {% endfor %}
     </ul>
     <p><a href="{% url 'bytes:word_edit' word.pk %}"><button class="btn-default">Edit Word</button> </a></p>
