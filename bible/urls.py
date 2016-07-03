@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from .views import TextRetrieveView
+from .views import TextRetrieveView, NormalizeLocationView
 
 app_name = 'bible'
 
@@ -23,5 +23,9 @@ urlpatterns = [
     url(
         regex=r'api/v1/texts/(?P<reference>.+)$',
         view=TextRetrieveView,
+    ),
+    url(
+        regex=r'api/v1/validate/(?P<reference>.+)$',
+        view=NormalizeLocationView,
     ),
 ]
