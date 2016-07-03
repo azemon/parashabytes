@@ -1,4 +1,5 @@
 {% extends 'bytes/base.html' %}
+{% load static %}
 
 {% block title %}{{ word }} :: Parasha Bytes{% endblock %}
 
@@ -12,8 +13,8 @@
             <li>
                 <div id="loc{{ forloop.counter }}" class="location">{{ location }}</div>
                 <div class="row">
-                    <div id="loc{{ forloop.counter }}english" class="col-sm-6">...</div>
-                    <div id="loc{{ forloop.counter }}hebrew" class="col-md-6 hebrew">...</div>
+                    <div id="loc{{ forloop.counter }}english" class="col-sm-6"><img src="{% static 'bytes/spin.gif' %}" alt=""></div>
+                    <div id="loc{{ forloop.counter }}hebrew" class="col-md-6 hebrew"><img src="{% static 'bytes/spin.gif' %}" alt=""></div>
                 </div>
             </li>
         {% endfor %}
@@ -31,8 +32,8 @@
                 var baseid = $(this).attr('id');
                 var url = '/bible/api/v1/texts/' + location;
                 $.getJSON(url, {}, function(data){
-                    $('#' + baseid + 'english').text(data.text);
-                    $('#' + baseid + 'hebrew').text(data.he);
+                    $('#' + baseid + 'english').text(data.english);
+                    $('#' + baseid + 'hebrew').text(data.hebrew);
                 });
             });
         });
