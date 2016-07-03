@@ -10,15 +10,31 @@
     <ul>
         {% for location in word.location.all %}
             <li>
-                <div>{{ location }}</div>
-                {% autoescape off %}
-                    <div class="row">
-                        <div class="col-sm-6">{{ location.text.text }}</div>
-                        <div class="col-md-6 hebrew">{{ location.text.he }}</div>
-                    </div>
-                {% endautoescape %}
+                <div id="loc{{ forloop.counter }}" class="location">{{ location }}</div>
+                <div class="row">
+                    <div id="loc{{ forloop.counter }}english" class="col-sm-6">...</div>
+                    <div id="loc{{ forloop.counter }}hebrew" class="col-md-6 hebrew">...</div>
+                </div>
             </li>
         {% endfor %}
     </ul>
     <p><a href="{% url 'bytes:word_edit' word.pk %}"><button class="btn-default">Edit Word</button> </a></p>
 {% endblock content %}
+
+{% block end_of_body %}
+    {# fetch English and Hebrew text from Sefaria #}
+    <script>
+        $(document).ready(function(){
+            $('.location').each(function(){
+                var location = $(this).text();
+                location = location.replace(' ', '.');
+                var baseid = $(this).attr('id');
+                var url = '/bible/api/v1/texts/' + location;
+                $.getJSON(url, {}, function(data){
+                    $('#' + baseid + 'english').text(data.text);
+                    $('#' + baseid + 'hebrew').text(data.he);
+                });
+            });
+        });
+    </script>
+{% endblock end_of_body %}

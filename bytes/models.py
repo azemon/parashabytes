@@ -135,7 +135,7 @@ class Location(models.Model):
         return the text for the location, from sefaria.org
         :return:
         """
-        sefaria_url = 'http://www.sefaria.org/api/texts/{book}.{chapter}.{verse}?context=0&content=0'.format(
+        sefaria_url = 'http://www.sefaria.org/api/texts/{book}.{chapter}.{verse}?context=0&commentary=0'.format(
             book=self.book.english_name, chapter=self.chapter, verse=self.verse
         )
         text = requests.get(sefaria_url).json()

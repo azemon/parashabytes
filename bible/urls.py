@@ -13,14 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
-from django.contrib import admin
-from django.views.generic import RedirectView, TemplateView
+from django.conf.urls import url
+
+from .views import TextRetrieveView
+
+app_name = 'bible'
 
 urlpatterns = [
-    url(r'^bible/', include('bible.urls')),
-    url(r'^bytes/', include('bytes.urls')),
-    url(r'^admin/', admin.site.urls),
-
-    url(r'^$', RedirectView.as_view(url='bytes/'))
+    url(
+        regex=r'api/v1/texts/(?P<reference>.+)$',
+        view=TextRetrieveView,
+    ),
 ]

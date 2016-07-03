@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bible.apps.BibleConfig',
     'bytes.apps.BytesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
