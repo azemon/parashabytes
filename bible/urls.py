@@ -25,7 +25,7 @@ urlpatterns = [
         view=TextRetrieveView,
     ),
     url(
-        regex=r'api/v1/validate/(?P<reference>.+)$',
+        regex=r'api/v1/normalize/(?P<reference>.+)$',
         view=NormalizeLocationView,
     ),
 ]
