@@ -23,17 +23,19 @@
 {% endblock content %}
 
 {% block end_of_body %}
-    {# fetch English and Hebrew text from Sefaria #}
     <script>
         $(document).ready(function(){
+            /*
+             * fetch English and Hebrew text and insert it into the page
+             */
             $('.location').each(function(){
                 var location = $(this).text();
                 location = location.replace(' ', '.');
                 var baseid = $(this).attr('id');
-                var url = '/bible/api/v1/texts/' + location;
+                var url = '{% url 'bible:texts' 'LOCATION' %}'.replace('LOCATION', location);
                 $.getJSON(url, {}, function(data){
-                    $('#' + baseid + 'english').text(data.english);
-                    $('#' + baseid + 'hebrew').text(data.hebrew);
+                    $('#' + baseid + 'english').html(data.english);
+                    $('#' + baseid + 'hebrew').html(data.hebrew);
                 });
             });
         });

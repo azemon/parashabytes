@@ -23,9 +23,11 @@ urlpatterns = [
     url(
         regex=r'api/v1/texts/(?P<reference>.+)$',
         view=TextRetrieveView,
+        name='texts',
     ),
     url(
         regex=r'api/v1/normalize/(?P<reference>.+)$',
         view=NormalizeLocationView,
+        name='normalize',
     ),
 ]

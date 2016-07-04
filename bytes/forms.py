@@ -39,7 +39,7 @@ class LocationField(CharField):
 
 
 class WordForm(ModelForm):
-    locations = LocationField(label='Location(s)')
+    location_field = LocationField(label='Location')
 
     class Meta:
         model = Word
@@ -49,7 +49,7 @@ class WordForm(ModelForm):
         word = super().save(commit)
 
         # get the normalized info about the location
-        sefaria_response = self.fields['locations'].response
+        sefaria_response = self.fields['location_field'].response
         book_name = sefaria_response['book']['english']
         chapter = sefaria_response['chapter']
         verse = sefaria_response['verse']

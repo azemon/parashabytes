@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -69,6 +69,8 @@ class WordUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):
     model = Word
     form_class = WordForm
     template_name = 'bytes/word_update.html'
-    success_url = reverse_lazy('bytes:word')
     success_message = 'Word successfully updated'
     login_url = reverse_lazy('admin:login')
+
+    def get_success_url(self):
+        return reverse('bytes:word_detail', kwargs=self.kwargs)
