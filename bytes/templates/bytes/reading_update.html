@@ -1,4 +1,5 @@
 {% extends 'bytes/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}Reading {{ reading.description }} :: Parasha Bytes{% endblock %}
 
@@ -9,7 +10,7 @@
     {% endif %}
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <p><input type="submit" value="Update"></p>
     </form>
 {% endblock content %}
