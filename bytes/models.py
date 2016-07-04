@@ -146,7 +146,7 @@ class Word(models.Model):
     """
     one word or phrase mentioned in the Tenach
     """
-    english_word = models.CharField(max_length=100, unique=True)
+    english_word = models.CharField(max_length=100, primary_key=True)
     hebrew_word = models.CharField(max_length=100, unique=True)
     transliterated_word = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=2000, blank=True)

@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.forms import CharField, HiddenInput, ModelForm
 
 from bible.views import NormalizeLocation
-from .models import Location, Parasha, Reading, Word
+from .models import Book, Location, Parasha, Reading, Word
 
 
 class LocationForm(ModelForm):
@@ -23,12 +23,6 @@ class ReadingForm(ModelForm):
         fields = ['book', 'start_chapter', 'start_verse', 'end_chapter', 'end_verse']
 
 
-class WordForm(ModelForm):
-    class Meta:
-        model = Word
-        fields = ['english_word', 'hebrew_word', 'transliterated_word', 'description', 'location']
-
-
 class LocationField(CharField):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -44,19 +38,26 @@ class LocationField(CharField):
             raise ValidationError(self.response['error'])
 
 
-class NewWordForm(ModelForm):
+class WordForm(ModelForm):
     locations = LocationField(label='Location(s)')
 
     class Meta:
         model = Word
-        fields = ['english_word', 'hebrew_word', 'transliterated_word', 'description', 'location']
-        widgets = {
-            'location': HiddenInput(),
-        }
+        fields = ['english_word', 'hebrew_word', 'transliterated_word', 'description']
 
-    def clean_locations(self):
+    def save(self, commit=True):
+        word = super().save(commit)
+
+        # get the normalized info about the location
         sefaria_response = self.fields['locations'].response
         book_name = sefaria_response['book']['english']
         chapter = sefaria_response['chapter']
         verse = sefaria_response['verse']
-        return self.cleaned_data['locations']
+
+        # associate the word with the location
+        book = Book.objects.get(english_name=book_name)
+        location = Location.objects.get_or_create(book=book, chapter=chapter, verse=verse)
+        word.location.add(location[0])
+        word.save()
+
+        return word

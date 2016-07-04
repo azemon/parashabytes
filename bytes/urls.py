@@ -73,12 +73,7 @@ urlpatterns = [
         name='word'
     ),
     url(
-        regex=r'^word/(?P<pk>[0-9]+)/$',
-        view=WordDetailView.as_view(),
-        name='word_detail'
-    ),
-    url(
-        regex=r'^word/(?P<pk>[0-9]+)/edit/$',
+        regex=r'^word/(?P<pk>.+)/edit/$',
         view=WordUpdateView.as_view(),
         name='word_edit'
     ),
@@ -86,6 +81,11 @@ urlpatterns = [
         regex=r'^word/add/$',
         view=WordCreateView.as_view(),
         name='word_add'
+    ),
+    url(
+        regex=r'^word/(?P<pk>.+)/$',
+        view=WordDetailView.as_view(),
+        name='word_detail'
     ),
 
     url(
