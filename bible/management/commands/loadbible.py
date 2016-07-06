@@ -8,6 +8,10 @@ from bible.models import Bible
 
 FILES = (
     'Genesis-hebrew.json',
+    'Exodus-hebrew.json',
+    'Leviticus-hebrew.json',
+    'Numbers-hebrew.json',
+    'Deuteronomy-hebrew.json',
 )
 
 
@@ -19,6 +23,7 @@ class Command(BaseCommand):
         Bible.objects.all().delete()
 
         for filename in FILES:
+            print('Loading ' + filename)
             data = json.load(open('bible/data/' + filename))
 
             for chapter in range(0, len(data['text'])):
@@ -34,4 +39,4 @@ class Command(BaseCommand):
                         hebrew_text=t
                     )
                     pass
-            return
+ 
