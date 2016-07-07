@@ -37,3 +37,12 @@ class WordTest(TestCase):
             create_word()
             create_word()
         self.assertRaises(IntegrityError, create_two_words)
+
+    def test_word_str(self):
+        word = create_word(
+            english_word='english test',
+            hebrew_word='hebrew test',
+            transliterated_word='transliterated',
+            description='nothing to say here',
+        )
+        self.assertEqual(str(word), 'transliterated')

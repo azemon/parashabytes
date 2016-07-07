@@ -1,8 +1,6 @@
 from django.db.utils import IntegrityError
 from django.test import TestCase
 
-from .models import Book, Location, Parasha, Reading, Word
-
 from .tests_util import *
 
 

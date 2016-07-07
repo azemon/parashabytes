@@ -17,3 +17,13 @@ class LocationTest(TestCase):
             create_location(self.book)
             create_location(self.book)
         self.assertRaises(IntegrityError, create_two_locations)
+
+    def test_location_str(self):
+        book = create_book(
+            english_name='Genesis',
+            hebrew_name='Hebrew Name',
+            transliterated_name='Transliterated Name',
+            sortkey=99,
+        )
+        location = create_location(book=book, chapter=5, verse=6)
+        self.assertEqual(str(location), 'Genesis 5:6')
