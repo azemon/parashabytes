@@ -11,6 +11,10 @@
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <p><input type="submit" value="Update"></p>
+        <p><input type="submit" value="Update Word"></p>
+
+        {% for loc in word.location.all %}
+            <p>{{ loc }} <button name="deletelocation" value="{{ loc.pk }}">Delete Location</button> </p>
+        {% endfor %}
     </form>
 {% endblock content %}

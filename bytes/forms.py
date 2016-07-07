@@ -30,6 +30,8 @@ class LocationField(CharField):
 
     def clean(self, value):
         clean_value = super().clean(value)
+        if '' == clean_value:
+            return clean_value
         self.response = NormalizeLocation(reference=clean_value)
         try:
             clean_value = self.response['ref']
@@ -39,7 +41,7 @@ class LocationField(CharField):
 
 
 class WordForm(ModelForm):
-    location_field = LocationField(label='Location')
+    location_field = LocationField(label='New Location', required=False)
 
     class Meta:
         model = Word
@@ -50,14 +52,15 @@ class WordForm(ModelForm):
 
         # get the normalized info about the location
         sefaria_response = self.fields['location_field'].response
-        book_name = sefaria_response['book']['english']
-        chapter = sefaria_response['chapter']
-        verse = sefaria_response['verse']
+        if 'book' in sefaria_response.keys():
+            book_name = sefaria_response['book']['english']
+            chapter = sefaria_response['chapter']
+            verse = sefaria_response['verse']
 
-        # associate the word with the location
-        book = Book.objects.get(english_name=book_name)
-        location = Location.objects.get_or_create(book=book, chapter=chapter, verse=verse)
-        word.location.add(location[0])
-        word.save()
+            # associate the word with the location
+            book = Book.objects.get(english_name=book_name)
+            location = Location.objects.get_or_create(book=book, chapter=chapter, verse=verse)
+            word.location.add(location[0])
+            word.save()
 
         return word

@@ -2,13 +2,14 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import IntegrityError
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from braces.views import LoginRequiredMixin
 
 from .forms import WordForm
-from .models import Word
+from .models import Word, Location
 from .views_util import ConfirmationMessageMixin
 
 
@@ -72,5 +73,19 @@ class WordUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):
     success_message = 'Word successfully updated'
     login_url = reverse_lazy('admin:login')
 
+    def get_queryset(self):
+        queryset = super(WordUpdateView, self).get_queryset()
+        return queryset.prefetch_related('location')
+
     def get_success_url(self):
         return reverse('bytes:word_detail', kwargs=self.kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if 'deletelocation' in request.POST:
+            word = self.object
+            location = Location.objects.get(pk=request.POST['deletelocation'])
+            word.location.remove(location)
+            messages.info(self.request, self.success_message)
+            return HttpResponseRedirect(reverse_lazy('bytes:word_detail', kwargs={'pk': word.pk}))
+        return super(UpdateView, self).post(request, *args, **kwargs)
