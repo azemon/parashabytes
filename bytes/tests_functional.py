@@ -52,18 +52,6 @@ class FunctionalTest(TestCase):
         self.parasha1.reading_set.add(self.reading1, self.reading3)
         self.parasha2.reading_set.add(self.reading2)
 
-        if PRINT_A_LOT:
-            print('')
-            print('')
-            print('parasha1 readings: {}'.format(self.parasha1.reading_set.all()))
-            print('parasha1 location_set: {}'.format(self.parasha1.location_set()))
-            print('parasha1 word_set: {}'.format(self.parasha1.word_set()))
-
-            print('')
-            print('parasha2 readings: {}'.format(self.parasha2.reading_set.all()))
-            print('parasha2 location_set: {}'.format(self.parasha2.location_set()))
-            print('parasha2 word_set: {}'.format(self.parasha2.word_set()))
-
     def test_reading_count(self):
         self.assertEqual(self.parasha1.reading_set.all().count(), 2)
         self.assertEqual(self.parasha2.reading_set.all().count(), 1)

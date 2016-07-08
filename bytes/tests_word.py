@@ -45,4 +45,4 @@ class WordTest(TestCase):
             transliterated_word='transliterated',
             description='nothing to say here',
         )
-        self.assertEqual(str(word), 'transliterated')
+        self.assertEqual(str(word), 'english test (transliterated)')

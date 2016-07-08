@@ -2,7 +2,28 @@ import json
 
 from django.test import TestCase
 
+from .normalize import NormalizeLocation
 from .views import TextRetrieveView, NormalizeLocationView
+
+
+class NormalizeLocationTest(TestCase):
+    def test_valid_location(self):
+        data = NormalizeLocation('ex 2.12')
+        self.assertEqual(data['book']['english'], 'Exodus')
+        self.assertEqual(data['chapter'], 2)
+        self.assertEqual(data['verse'], 12)
+
+    def test_invalid_book(self):
+        data = NormalizeLocation('xyzzy 1:1')
+        self.assertEqual(data['error'], 'invalid location')
+
+    def test_invalid_chapter(self):
+        data = NormalizeLocation('deut 99:1')
+        self.assertEqual(data['error'], 'invalid location')
+
+    def test_invalid_verse(self):
+        data = NormalizeLocation('deut 1:99')
+        self.assertEqual(data['error'], 'invalid location')
 
 
 class NormalizeLocationViewTest(TestCase):

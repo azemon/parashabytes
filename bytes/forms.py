@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
-from django.forms import CharField, HiddenInput, ModelForm
+from django.forms import CharField, ModelForm
 
-from bible.views import NormalizeLocation
+from bible.normalize import NormalizeLocation
 from .models import Book, Location, Parasha, Reading, Word
 
 
