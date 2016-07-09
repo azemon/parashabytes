@@ -8,6 +8,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from braces.views import LoginRequiredMixin
 
+from bible.models import Bible
 from .forms import WordForm
 from .models import Word, Location
 from .views_util import ConfirmationMessageMixin
@@ -72,6 +73,12 @@ class WordUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):
     template_name = 'bytes/word_update.html'
     success_message = 'Word successfully updated'
     login_url = reverse_lazy('admin:login')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        word = data['word']
+        data['location_list'] = Bible.objects.contains_hebrew_word(word.hebrew_word)
+        return data
 
     def get_queryset(self):
         queryset = super(WordUpdateView, self).get_queryset()

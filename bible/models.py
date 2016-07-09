@@ -22,22 +22,21 @@ def sortkey(book, chapter, verse):
 
 
 class BibleManager(models.Manager):
-    def contains_hebrew_word(self, word='דֶּשֶׁא'):
+    def contains_hebrew_word(self, hebrew_word):
         """
         find all Bible verses containing a Hebrew word.
         We need to use this because the filter(hebrew_word__contains=...) doesn't work right with Hebrew
-        :param word:
+        :param hebrew_word:
         :return:
         """
         sql = """select sortkey, book, chapter, verse, hebrew_text
                  from bible_bible
-                 where hebrew_text like '%%%s%%' """
-        raw_query_set = self.raw(sql, [word])
+                 where hebrew_text like concat('%%', %s, '%%') """
+        raw_query_set = self.raw(sql, [hebrew_word])
         result_list = []
         for b in raw_query_set:
             result_list.append(b)
         return result_list
-
 
 
 class Bible(models.Model):
