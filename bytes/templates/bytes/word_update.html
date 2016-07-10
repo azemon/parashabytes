@@ -13,20 +13,9 @@
         {{ form|crispy }}
         <p><input type="submit" value="Update Word"></p>
 
-        <p><span class="hebrew">{{ word.hebrew_word }}</span> is found in these locations</p>
-        <ul>
-            {% for location in location_list %}
-                <li>
-                    {{ location }} - <span class="hebrew">{{ location.hebrew_text }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-
         <p><span class="hebrew">{{ word.hebrew_word }}</span> is already linked to these locations</p>
-        <ul>
-            {% for loc in word.location.all %}
-                <li>{{ loc }} <button name="deletelocation" value="{{ loc.pk }}">Delete Location</button> </li>
-            {% endfor %}
-        </ul>
+        {% for loc in word.location.all %}
+            <p>{{ loc }} <button name="deletelocation" value="{{ loc.pk }}">Delete Location</button> </p>
+        {% endfor %}
     </form>
 {% endblock content %}
