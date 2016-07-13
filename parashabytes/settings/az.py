@@ -1,13 +1,14 @@
 import sys
 
-from .settings_common import *
-
-from .dbsettings_az import db
+from .base import *
+from .secrets import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+INSTALLED_APPS += ['debug_toolbar']
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases

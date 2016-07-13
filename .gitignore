@@ -1,5 +1,4 @@
-dbsettings_az.py
-dbsettings.py
+secrets.py
 .idea
 *~
 *.pyc

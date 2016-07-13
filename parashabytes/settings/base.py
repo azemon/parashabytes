@@ -19,9 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l6pqo2)b@227!sbj3nso0b@0k^+=@oz*qbfhnu4&#4iq&+pkxz'
-
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 

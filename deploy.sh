@@ -4,8 +4,7 @@ rsync -avz \
     --exclude '*.pyc' \
     --exclude .idea \
     --exclude '*.sqlite3' \
-    --exclude settings-az.py \
-    --exclude dbsettings_az.py \
+    --exclude secrets.py \
     --exclude '*~' \
     ./ zemonweb@zemon.name:parashabytes.zemon.name
 
