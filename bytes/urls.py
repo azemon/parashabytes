@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
 from .views_location import LocationCreateView, LocationListView
@@ -37,7 +38,7 @@ urlpatterns = [
 
     url(
         regex=r'^parasha/$',
-        view=ParashaListView.as_view(),
+        view=cache_page(60*60)(ParashaListView.as_view()),
         name='parasha'
     ),
     url(
@@ -53,7 +54,7 @@ urlpatterns = [
 
     url(
         regex=r'^reading/$',
-        view=ReadingListView.as_view(),
+        view=cache_page(60*60)(ReadingListView.as_view()),
         name='reading'
     ),
     url(
