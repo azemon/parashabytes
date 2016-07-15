@@ -17,7 +17,6 @@ class LocationCreateView(LoginRequiredMixin, ConfirmationMessageMixin, CreateVie
     template_name = 'bytes/location_create.html'
     success_url = reverse_lazy('bytes:location')
     success_message = 'Location successfully added'
-    login_url = reverse_lazy('admin:login')
 
     def form_valid(self, form):
         try:

@@ -17,7 +17,6 @@ class ReadingCreateView(LoginRequiredMixin, ConfirmationMessageMixin, CreateView
     template_name = 'bytes/reading_create.html'
     success_url = reverse_lazy('bytes:reading')
     success_message = 'Reading successfully added'
-    login_url = reverse_lazy('admin:login')
 
     def form_valid(self, form):
         try:
@@ -42,4 +41,3 @@ class ReadingUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView
     template_name = 'bytes/reading_update.html'
     success_url = reverse_lazy('bytes:reading')
     success_message = 'Reading successfully updated'
-    login_url = reverse_lazy('admin:login')

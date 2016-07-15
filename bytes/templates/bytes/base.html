@@ -46,9 +46,9 @@
                     <li><a href="{% url 'bytes:parasha' %}">Parashot</a></li>
                     <li><a href="{% url 'bytes:reading' %}">Readings</a></li>
                     {% if request.user.is_authenticated %}
-                        <li><a href="/admin/logout/">Logout</a></li>
+                        <li><a href="/admin/logout/?next=/bytes/">Logout {{ user.first_name }}</a></li>
                     {% else %}
-                        <li><a href="/admin/login/">Login</a></li>
+                        <li><a href="/bytes/login/?next={{ request.path }}">Login</a></li>
                     {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->

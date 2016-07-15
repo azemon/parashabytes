@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
+from bytes.views_util import login_view
 from .views_location import LocationCreateView, LocationListView
 from .views_parasha import ParashaDetailView, ParashaListView, ParashaUpdateView
 from .views_reading import ReadingCreateView, ReadingListView, ReadingUpdateView
@@ -87,6 +88,12 @@ urlpatterns = [
         regex=r'^word/(?P<pk>.+)/$',
         view=WordDetailView.as_view(),
         name='word_detail'
+    ),
+
+    url(
+        regex=r'^login/$',
+        view=login_view,
+        name='login'
     ),
 
     url(

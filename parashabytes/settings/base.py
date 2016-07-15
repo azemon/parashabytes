@@ -106,3 +106,5 @@ CACHES = {
         'LOCATION': 'parashabytes',
     }
 }
+
+LOGIN_URL = '/bytes/login/'

@@ -1,0 +1,22 @@
+{% extends 'bytes/base.html' %}
+
+{% block title %}Login :: Parasha Bytes{% endblock %}
+
+{% block content %}
+    <h1>Parasha Bytes Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" value="{{ username }}">
+        </p>
+        <p>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+        </p>
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+        <p><input type="submit" value="Login"></p>
+    </form>
+{% endblock content %}

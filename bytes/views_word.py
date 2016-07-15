@@ -19,7 +19,6 @@ class WordCreateView(LoginRequiredMixin, ConfirmationMessageMixin, CreateView):
     template_name = 'bytes/word_create.html'
     success_url = reverse_lazy('bytes:word')
     success_message = 'Word successfully added'
-    login_url = reverse_lazy('admin:login')
 
     def form_valid(self, form):
         try:
@@ -71,7 +70,6 @@ class WordUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):
     form_class = WordForm
     template_name = 'bytes/word_update.html'
     success_message = 'Word successfully updated'
-    login_url = reverse_lazy('admin:login')
 
     def get_queryset(self):
         queryset = super(WordUpdateView, self).get_queryset()

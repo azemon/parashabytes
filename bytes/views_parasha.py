@@ -43,4 +43,3 @@ class ParashaUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView
     template_name = 'bytes/parasha_update.html'
     success_url = reverse_lazy('bytes:parasha')
     success_message = 'Parasha successfully updated'
-    login_url = reverse_lazy('admin:login')
