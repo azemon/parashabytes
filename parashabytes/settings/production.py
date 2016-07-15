@@ -25,3 +25,6 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_URL = 'https://parashastatic.zemon.name/'
 STATIC_ROOT = '/var/www/vhosts/zemon.name/parashastatic.zemon.name'
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

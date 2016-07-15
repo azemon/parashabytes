@@ -45,7 +45,6 @@
                     <li><a href="{% url 'bytes:word' %}">Words</a></li>
                     <li><a href="{% url 'bytes:parasha' %}">Parashot</a></li>
                     <li><a href="{% url 'bytes:reading' %}">Readings</a></li>
-                    <li><a href="/admin/">Admin</a></li>
                     {% if request.user.is_authenticated %}
                         <li><a href="/admin/logout/">Logout</a></li>
                     {% else %}
