@@ -21,7 +21,7 @@ def TextRetrieveView(request, reference):
         'english': data['text'],
         'hebrew': data['he'],
     }
-    return HttpResponse(json.dumps(text), content_type='application/json')
+    return HttpResponse(json.dumps(text), content_type='application/json; charset=utf-8')
 
 
 def NormalizeLocationView(request, reference):
@@ -33,4 +33,4 @@ def NormalizeLocationView(request, reference):
     :return: HttpResponse
     """
     response = NormalizeLocation(reference)
-    return HttpResponse(json.dumps(response), content_type='application/json')
+    return HttpResponse(json.dumps(response), content_type='application/json; charset=utf-8')

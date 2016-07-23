@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.views.decorators.cache import cache_page
 
 from .views import TextRetrieveView, NormalizeLocationView
 
@@ -22,12 +23,12 @@ app_name = 'bible'
 urlpatterns = [
     url(
         regex=r'api/v1/texts/(?P<reference>.+)$',
-        view=TextRetrieveView,
+        view=cache_page(60 * 60 * 24)(TextRetrieveView), # cache for a day
         name='texts',
     ),
     url(
         regex=r'api/v1/normalize/(?P<reference>.+)$',
-        view=NormalizeLocationView,
+        view=cache_page(60 * 60 * 24)(NormalizeLocationView), # cache for a day
         name='normalize',
     ),
 ]
