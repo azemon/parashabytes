@@ -1,3 +1,15 @@
+body {
+    font-family: Georgia, serif;
+    font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-weight: bold;
+}
+
 dl dd {
     margin-left: 5em;
 }
@@ -8,11 +20,26 @@ dl dd {
     background-color: #cccccc;
 }
 
+@font-face {
+    font-family: 'Taamey Frank';
+    font-weight: normal;
+    src: url('TaameyFrankCLM-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Taamey Frank';
+    font-weight: bold;
+    src: url('TaameyFrankCLM-Bold.ttf');
+}
+
 h1 span.hebrew {
+    font-size: 120%;
     padding: 0 1em;
 }
 
 .hebrew {
-    font-size: 120%;
+    direction: rtl;
+    font-family: 'Taamey Frank', sans-serif;
+    font-size: 165%;
     text-align: right;
 }
