@@ -14,7 +14,7 @@ class LocationForm(ModelForm):
 class ParashaForm(ModelForm):
     class Meta:
         model = Parasha
-        fields = ['hebrew_name', 'transliterated_name', 'notes']
+        fields = ['hebrew_name', 'transliterated_name', 'sortkey', 'notes']
 
 
 class ReadingForm(ModelForm):

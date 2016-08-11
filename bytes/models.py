@@ -37,9 +37,10 @@ class Parasha(models.Model):
     hebrew_name = models.CharField(max_length=40, unique=True)
     transliterated_name = models.CharField(max_length=40, unique=True)
     notes = models.CharField(max_length=2000, blank=True)
+    sortkey = models.PositiveIntegerField(default=0, db_index=True)
 
     class Meta:
-        ordering = ['transliterated_name']
+        ordering = ['sortkey', 'transliterated_name']
 
     def location_set(self):
         """

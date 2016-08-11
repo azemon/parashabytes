@@ -31,6 +31,9 @@ class ParashaListView(ListView):
     template_name = 'bytes/parasha_list.html'
     context_object_name = 'parashot'
 
+    class Meta:
+        ordering = ['sortkey', 'translisterated_name']
+
     def get_queryset(self):
         qs = super().get_queryset()
         qs = qs.prefetch_related('reading_set')
