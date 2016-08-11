@@ -23,12 +23,12 @@ app_name = 'bible'
 urlpatterns = [
     url(
         regex=r'api/v1/texts/(?P<reference>.+)$',
-        view=cache_page(60 * 60 * 24)(TextRetrieveView), # cache for a day
+        view=cache_page(60 * 60 * 24 * 7)(TextRetrieveView), # cache for a week
         name='texts',
     ),
     url(
         regex=r'api/v1/normalize/(?P<reference>.+)$',
-        view=cache_page(60 * 60 * 24)(NormalizeLocationView), # cache for a day
+        view=cache_page(60 * 60 * 24 * 7)(NormalizeLocationView), # cache for a week
         name='normalize',
     ),
 ]
