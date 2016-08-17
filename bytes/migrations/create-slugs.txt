@@ -1,4 +1,0 @@
-from bytes.models import Word
-from django.utils.text import slugify
-w = Word.objects.all()
-for word in w: print(word); word.slug=slugify(word.english_word); word.save()

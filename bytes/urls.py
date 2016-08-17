@@ -25,10 +25,6 @@ from .views_word import WordCreateView, WordDetailView, WordListView, WordUpdate
 
 app_name = 'bytes'
 
-#todo restore cache time values
-PARASHA_LIST_CACHE_TIME = 1 #60 * 60
-READING_LIST_CACHE_TIME = 1 #60 * 60
-
 urlpatterns = [
     url(
         regex=r'location/$',
@@ -43,7 +39,7 @@ urlpatterns = [
 
     url(
         regex=r'^parasha/$',
-        view=cache_page(PARASHA_LIST_CACHE_TIME)(ParashaListView.as_view()),
+        view=ParashaListView.as_view(),
         name='parasha'
     ),
     url(
@@ -59,7 +55,7 @@ urlpatterns = [
 
     url(
         regex=r'^reading/$',
-        view=cache_page(READING_LIST_CACHE_TIME)(ReadingListView.as_view()),
+        view=ReadingListView.as_view(),
         name='reading'
     ),
     url(

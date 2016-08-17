@@ -18,7 +18,7 @@ class ParashaDetailView(DetailView):
         parasha = context['parasha']
         word_list = []
         for word in parasha.word_set():
-            word.parasha(parasha)
+            #word.parasha(parasha)
             word_list.append(word)
         context.update({
             'word_list': sorted(word_list)

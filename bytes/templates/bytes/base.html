@@ -43,9 +43,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'bytes:parasha' %}">Parashot</a></li>
-                    <li><a href="{% url 'bytes:word' %}">Words</a></li>
-                    <li><a href="{% url 'bytes:reading' %}">Readings</a></li>
                     {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'bytes:word' %}">Words</a></li>
+                        <li><a href="{% url 'bytes:reading' %}">Readings</a></li>
                         <li><a href="/admin/logout/?next=/bytes/">Logout {{ user.first_name }}</a></li>
                     {% else %}
                         <li><a href="/bytes/login/?next={{ request.path }}">Login</a></li>
@@ -76,7 +76,9 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6 text-muted">
-                <p>Created by <a href="https://CheerfulCurmudgeon.com/" target="_blank">Art Zemon</a></p>
+                <p>Created by <a href="https://CheerfulCurmudgeon.com/" target="_blank">Art Zemon</a>
+                and
+                <a href="http://www.unitedhebrew.org/about/clergy/" target="_blank">Cantor Ronald Eichaker</a></p>
                 <p>Biblical text from <a href="http://www.sefaria.org/" target="_blank">Sefaria</a></p>
             </div>
             <div class="col-sm-6 text-muted text-right">
