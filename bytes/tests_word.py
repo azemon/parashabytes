@@ -12,6 +12,7 @@ class WordTest(TestCase):
     def test_create_word(self):
         word = create_word()
         self.assertIsNotNone(word.pk)
+        self.assertIsNotNone(word.slug)
 
     def test_create_word_with_location(self):
         word = create_word()

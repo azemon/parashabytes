@@ -3,6 +3,9 @@
 {% block title %}Parasha Bytes{% endblock %}
 
 {% block content %}
-    <h1>Parasha Bytes</h1>
-    <p>Use the menu above to explore.</p>
+    <div class="row">
+        <h1>Parasha Bytes</h1>
+        <p>Search for a food in English or Hebrew</p>
+        {% include 'bytes/_word_search.html' %}
+    </div>
 {% endblock content %}

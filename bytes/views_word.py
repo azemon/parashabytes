@@ -85,5 +85,5 @@ class WordUpdateView(LoginRequiredMixin, ConfirmationMessageMixin, UpdateView):
             location = Location.objects.get(pk=request.POST['deletelocation'])
             word.location.remove(location)
             messages.info(self.request, self.success_message)
-            return HttpResponseRedirect(reverse_lazy('bytes:word_detail', kwargs={'pk': word.pk}))
+            return HttpResponseRedirect(reverse_lazy('bytes:word_detail', kwargs={'slug': word.slug}))
         return super(UpdateView, self).post(request, *args, **kwargs)

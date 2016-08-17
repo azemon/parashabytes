@@ -19,7 +19,7 @@
             </li>
         {% endfor %}
     </ul>
-    <p><a href="{% url 'bytes:word_edit' word.pk %}"><button class="btn-default">Edit Word</button> </a></p>
+    <p><a href="{% url 'bytes:word_edit' word.slug %}"><button class="btn-default">Edit Word</button> </a></p>
 {% endblock content %}
 
 {% block end_of_body %}

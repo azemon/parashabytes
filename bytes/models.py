@@ -1,6 +1,5 @@
-import requests
-
 from django.db import models
+from autoslug import AutoSlugField
 
 
 def sortkey(book, chapter, verse):
@@ -152,6 +151,7 @@ class Word(models.Model):
     transliterated_word = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=2000, blank=True)
     location = models.ManyToManyField(Location)
+    slug = AutoSlugField(populate_from='english_word', unique=True, always_update=False)
 
     _parasha = None
 
@@ -190,7 +190,7 @@ class Word(models.Model):
     def __lt__(self, other):
         """
         support Python's sorted() function
-        :param other: Location
+        :param other: Word
         :return: boolean
         """
         return self.english_word < other.english_word
