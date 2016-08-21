@@ -102,7 +102,7 @@ USE_TZ = True
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'caching.backends.locmem.LocMemCache',
         'LOCATION': 'parashabytes',
     }
 }

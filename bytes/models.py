@@ -1,3 +1,4 @@
+from caching.base import CachingMixin, CachingManager
 from django.db import models
 from autoslug import AutoSlugField
 
@@ -13,7 +14,7 @@ def sortkey(book, chapter, verse):
     return (book.sortkey * 10000) + (chapter * 100) + verse
 
 
-class Book(models.Model):
+class Book(CachingMixin, models.Model):
     """
     One book in the Tanach
     """
@@ -22,6 +23,8 @@ class Book(models.Model):
     transliterated_name = models.CharField(max_length=20, unique=True)
     sortkey = models.PositiveSmallIntegerField(unique=True)
 
+    objects = CachingManager()
+
     class Meta:
         ordering = ['sortkey']
 
@@ -29,7 +32,7 @@ class Book(models.Model):
         return self.english_name
 
 
-class Parasha(models.Model):
+class Parasha(CachingMixin, models.Model):
     """
     One parasha, including one or more sections of the Tanach
     """
@@ -37,6 +40,8 @@ class Parasha(models.Model):
     transliterated_name = models.CharField(max_length=40, unique=True)
     notes = models.CharField(max_length=2000, blank=True)
     sortkey = models.PositiveIntegerField(default=0, db_index=True)
+
+    objects = CachingManager()
 
     class Meta:
         ordering = ['sortkey', 'transliterated_name']
@@ -71,7 +76,7 @@ class Parasha(models.Model):
         return self.transliterated_name
 
 
-class Reading(models.Model):
+class Reading(CachingMixin, models.Model):
     """
     Reading of the Tanach including starting and ending book + chapter + verse
     Part of one or more parashot
@@ -91,6 +96,8 @@ class Reading(models.Model):
     start_sortkey = models.PositiveIntegerField()  # 10101
     end_sortkey = models.PositiveIntegerField()  # 10209
     description = models.CharField(max_length=40, unique=True)  # Genesis 1:1-2:9
+
+    objects = CachingManager()
 
     class Meta:
         ordering = ['start_sortkey']
@@ -142,7 +149,7 @@ class Location(models.Model):
         return self.sortkey < other.sortkey
 
 
-class Word(models.Model):
+class Word(CachingMixin, models.Model):
     """
     one word or phrase mentioned in the Tenach
     """
@@ -152,6 +159,8 @@ class Word(models.Model):
     description = models.CharField(max_length=2000, blank=True)
     location = models.ManyToManyField(Location)
     slug = AutoSlugField(populate_from='english_word', unique=True, always_update=False)
+
+    objects = CachingManager()
 
     _parasha = None
 
