@@ -3,9 +3,32 @@
 {% block title %}Parasha Bytes{% endblock %}
 
 {% block content %}
+    <style type="text/css">
+        ul.sample-words li a {
+            font-weight: bold;
+            padding: 0 0.5em;
+            text-transform: uppercase;
+        }
+    </style>
     <div class="row">
         <h1>Parasha Bytes</h1>
-        <p>Search for a food in English or Hebrew</p>
-        {% include 'bytes/_word_search.html' %}
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <p>Search for a food in English or Hebrew</p>
+            {% include 'bytes/_word_search.html' %}
+        </div>
+        <div class="col-md-6">
+            <p>Explore the foods of the Torah. Type any word into the search box.</p>
+            <p>You can also click <em>Parashot</em> and select the parasha for your b'nai mitzvah (or other special occasion). It will list the foods in that week's portion. You can use that list to help plan your menu.</p>
+            <p>Don't know where to start? Try these:</p>
+            <ul class="sample-words">
+                <li>I have come down to rescue them from the Egyptians and to bring them out of that land to a good and spacious land, a land flowing with <a href="{% url 'bytes:word_detail' slug='milk' %}">milk</a> <a href="{% url 'bytes:word_detail' slug='and-honey' %}">and honey</a>....</li>
+                <li>By the sweat of your brow Shall you get <a href="{% url 'bytes:word_detail' slug='bread' %}">bread</a> to eat, Until you return to the ground— For from it you were taken. For dust you are, And to dust you shall return.</li>
+                <li>also unleavened bread, unleavened cakes with <a href="{% url 'bytes:word_detail' slug='oil' %}">oil</a> mixed in, and unleavened wafers spread with oil—make these of choice wheat flour. </li>
+                <li>Parasha <a href="{% url 'bytes:parasha_detail' pk='62' %}">Rosh Hashanah</a></li>
+                <li>Parasha <a href="{% url 'bytes:parasha_detail' pk='67' %}">Chanukah</a></li>
+            </ul>
+        </div>
     </div>
 {% endblock content %}
